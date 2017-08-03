@@ -15,7 +15,7 @@ encoding_map = {
 
 
 def encode_array(array, compression=COMPRESSION_NONE, dtype=np.float32):
-    bytestring = np.asanyarray(array).astype(dtype).tobytes()
+    bytestring = np.asanyarray(array).astype(dtype).tostring()
     if compression == COMPRESSION_NONE:
         bytestring = bytestring
     elif compression == COMPRESSION_ZLIB:

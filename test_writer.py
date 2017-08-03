@@ -47,21 +47,17 @@ intensity_array = [
     2.73782365e+03, 1.35373492e+03, 1.17601397e+03
 ]
 
-charge_array = [
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, -2, -2, -2, -2,
-    -3, -2, -2, -3, -2, -2, -2, -3, -3, -2, -2, -3, -3, -2, -3, -3, -2,
-    -3, -3, -3, -3, -3, -5, -4, -3, -6
-]
-
+charge_array = None
 
 f = writer.MzMLWriter(open(path, 'wb'))
 
 with f:
     f.controlled_vocabularies()
     with f.element('run'):
-        f.write_spectrum(mz_array, intensity_array, charge_array, id='scanId=1', params=[
-            {"name": "ms level", "value": 1}], polarity='negative scan')
+        with f.element('spectrumList'):
+            precursor_information = {"mz":1.1, "intensity":2.2, "charge":3, "scan_id":1} #mz, intensity, charge, scan_id
+            f.write_spectrum(mz_array, intensity_array, charge_array, id='scanId=1', params=[
+                {"name": "ms level", "value": 2}, {"name": "UnivsalClusterID", "value":'testfk;djafd;afndnm.'}], polarity='negative scan', centroided=True, precursor_information=precursor_information)
 
 
 spec = next(mzml.read(path))
